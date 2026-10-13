@@ -48,7 +48,7 @@ class CompraAPIView(APIView):
 
 from rest_framework.generics import ListAPIView
 from tienda_app.models import Libro
-from .serializers import LibroSerializer
+from tienda_app.api.serializers import LibroSerializer
 
 
 class ProductosAPIView(ListAPIView):
