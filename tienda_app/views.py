@@ -102,3 +102,16 @@ class CompraRapidaView(View):
             contexto = servicio.obtener_detalle(libro_id)
             contexto['error'] = str(e)
             return render(request, self.template_name, contexto, status=400)
+
+from rest_framework.generics import ListAPIView
+from tienda_app.models import Libro
+from .serializers import LibroSerializer
+
+
+class ProductosAPIView(ListAPIView):
+    """
+    GET /api/v1/productos/
+    Catálogo servido por el monolito Django (v1).
+    """
+    queryset = Libro.objects.all()
+    serializer_class = LibroSerializer

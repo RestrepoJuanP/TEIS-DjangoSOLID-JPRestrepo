@@ -10,7 +10,6 @@ services:
 
   web:
     build: .
-    # Gunicorn en lugar de runserver. 'Tienda' es la carpeta con wsgi.py
     command: gunicorn Tienda.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
@@ -23,7 +22,11 @@ services:
       - DB_PASSWORD=secret_password
       - DB_HOST=db
       - DB_PORT=5432
-    # Sin sección 'ports': Django queda aislado de internet
+
+  # EL ESTRANGULADOR
+  pagos_flask:
+    build: ./microservicio_pagos
+    # Sin 'ports': solo Nginx habla con él, igual que con Django
 
   nginx:
     image: nginx:1.25-alpine
@@ -34,6 +37,7 @@ services:
       - static_volume:/app/staticfiles
     depends_on:
       - web
+      - pagos_flask
 
 volumes:
   postgres_data:
